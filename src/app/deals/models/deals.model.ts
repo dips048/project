@@ -1,4 +1,5 @@
 export interface Property {
+    Loanid?: number,
     name: string;
     city: string;
     yearBuilt: number;

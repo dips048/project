@@ -1,5 +1,5 @@
-import { DealsListComponent } from "./deals-list/deals-list.component";
+import { ViewLoansComponent } from "./view-loans/view-loans.component";
 
 export const containers = [
-  DealsListComponent
+  ViewLoansComponent
 ]

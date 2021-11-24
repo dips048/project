@@ -1,0 +1,2 @@
+<app-property-loan-grid #propertyGrid [rowData]="propertyLoans$ | async" (filterChange)="filterChange($event)"></app-property-loan-grid>
+<app-loans-grid #loanGrid [rowData]="propertyLoans$ | async" (filterChange)="filterChange($event)"></app-loans-grid>

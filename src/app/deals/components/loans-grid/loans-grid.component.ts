@@ -1,23 +1,23 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
-import { Observable } from 'rxjs';
-import { Loan } from '../../models';
-import { DealsHttpService } from '../../services';
 
 @Component({
-  selector: 'app-deals-list',
-  templateUrl: './deals-list.component.html',
-  styleUrls: ['./deals-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-loans-grid',
+  templateUrl: './loans-grid.component.html',
+  styleUrls: ['./loans-grid.component.css']
 })
-export class DealsListComponent implements OnInit {
+export class LoansGridComponent implements OnInit {
 
-  deals$: Observable<Array<Loan>>;
+  @ViewChild('myGrid') myGrid: AgGridAngular;
+
+  @Input() rowData: Array<any> | null;
+  @Output() filterChange = new EventEmitter();
+
   columnDefs: ColDef[] = [
-    { field: 'Loanid', filter: true },
-    { field: 'LoanAmount', filter: true },
-    {
-      field: 'DueDate',
+    { field: 'Loanid', filter: 'agNumberColumnFilter' },
+    { field: 'LoanAmount', filter: 'agNumberColumnFilter' },
+    { field: 'DueDate',
       filter: 'agDateColumnFilter',
       filterParams: {
         comparator: (filterLocalDateAtMidnight: Date, cellValue: any) =>  {
@@ -65,16 +65,23 @@ export class DealsListComponent implements OnInit {
           }
         }
       }
-    }
+    },
+    { field: 'name', filter: 'agTextColumnFilter', hide: true },
+    { field: 'city', filter: 'agTextColumnFilter', hide: true },
+    { field: 'yearBuilt', filter: 'agNumberColumnFilter', hide: true },
   ];
 
-  constructor(
-    private dealsHttpService: DealsHttpService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.deals$ = this.dealsHttpService.getDeals();
-    this.deals$.subscribe(res => console.log('deal',res))
+  }
+
+  /**
+   * set the filter value of a grid
+   * @param value
+   */
+  setFilterValue(value: any) {
+    this.myGrid.api.setFilterModel(value);
   }
 
 }
