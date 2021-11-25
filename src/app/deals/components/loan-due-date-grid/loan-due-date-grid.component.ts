@@ -1,25 +1,25 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
+import { ColDef } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-property-loan-grid',
-  templateUrl: './property-loan-grid.component.html',
-  styleUrls: ['./property-loan-grid.component.css']
+  selector: 'app-loan-due-date-grid',
+  templateUrl: './loan-due-date-grid.component.html',
+  styleUrls: ['./loan-due-date-grid.component.css']
 })
-export class PropertyLoanGridComponent implements OnInit {
+export class LoanDueDateGridComponent implements OnInit {
 
   @ViewChild('myGrid') myGrid: AgGridAngular;
 
   @Input() rowData: Array<any> | null;
   @Output() filterChange = new EventEmitter();
 
-  columnDefs = [
+  columnDefs: ColDef[] = [
     { field: 'Loanid', filter: 'agNumberColumnFilter' },
-    { field: 'LoanAmount', filter: 'agNumberColumnFilter',hide: true  },
+    { field: 'LoanAmount', filter: 'agNumberColumnFilter', hide: true },
     { field: 'IntrestRate', filter: 'agNumberColumnFilter', hide: true },
     { field: 'DueDate',
       filter: 'agDateColumnFilter',
-      hide: true,
       filterParams: {
         comparator: (filterLocalDateAtMidnight: Date, cellValue: any) =>  {
           const dateAsString = cellValue;
@@ -45,7 +45,6 @@ export class PropertyLoanGridComponent implements OnInit {
     {
       field: 'NoteDate',
       filter: 'agDateColumnFilter',
-      hide: true,
       filterParams: {
         comparator: (filterLocalDateAtMidnight: Date, cellValue: any) =>  {
           const dateAsString = cellValue;
@@ -68,16 +67,10 @@ export class PropertyLoanGridComponent implements OnInit {
         }
       }
     },
-    {
-      headerName: 'Property Details',
-      children: [
-        { field: 'name', filter: 'agTextColumnFilter', columnGroupShow: 'oepn'},
-        { field: 'city', filter: 'agTextColumnFilter', columnGroupShow: 'closed'},
-        { field: 'yearBuilt', filter: 'agNumberColumnFilter', columnGroupShow: 'closed'},
-      ]
-    }
+    { field: 'name', filter: 'agTextColumnFilter', hide: true },
+    { field: 'city', filter: 'agTextColumnFilter', hide: true },
+    { field: 'yearBuilt', filter: 'agNumberColumnFilter', hide: true },
   ];
-
 
   constructor() { }
 
@@ -91,4 +84,5 @@ export class PropertyLoanGridComponent implements OnInit {
   setFilterValue(value: any) {
     this.myGrid.api.setFilterModel(value);
   }
+
 }

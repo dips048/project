@@ -1,0 +1,6 @@
+<ag-grid-angular #myGrid (filterChanged)="filterChange.emit(myGrid.api.getFilterModel())"
+    style="width: 1000px; height: 500px;"
+    class="ag-theme-alpine"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs">
+</ag-grid-angular>

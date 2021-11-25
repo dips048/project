@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef } from 'ag-grid-community';
 
 @Component({
   selector: 'app-loans-grid',
@@ -14,11 +13,13 @@ export class LoansGridComponent implements OnInit {
   @Input() rowData: Array<any> | null;
   @Output() filterChange = new EventEmitter();
 
-  columnDefs: ColDef[] = [
+  columnDefs = [
     { field: 'Loanid', filter: 'agNumberColumnFilter' },
     { field: 'LoanAmount', filter: 'agNumberColumnFilter' },
+    { field: 'IntrestRate', filter: 'agNumberColumnFilter'},
     { field: 'DueDate',
       filter: 'agDateColumnFilter',
+      hide: true,
       filterParams: {
         comparator: (filterLocalDateAtMidnight: Date, cellValue: any) =>  {
           const dateAsString = cellValue;
@@ -44,6 +45,7 @@ export class LoansGridComponent implements OnInit {
     {
       field: 'NoteDate',
       filter: 'agDateColumnFilter',
+      hide: true ,
       filterParams: {
         comparator: (filterLocalDateAtMidnight: Date, cellValue: any) =>  {
           const dateAsString = cellValue;

@@ -14,6 +14,7 @@ export class ViewLoansComponent implements OnInit {
 
   @ViewChild('propertyGrid') propertyGrid: PropertyLoanGridComponent;
   @ViewChild('loanGrid') loanGrid: LoansGridComponent;
+  @ViewChild('loanDueDateGrid') loanDueDateGrid: LoansGridComponent;
 
   propertyLoans$: Observable<PropertyLoansModel[]>;
 
@@ -33,6 +34,7 @@ export class ViewLoansComponent implements OnInit {
   filterChange(value: any){
     this.propertyGrid.setFilterValue(value);
     this.loanGrid.setFilterValue(value);
+    this.loanDueDateGrid.setFilterValue(value);
   }
 
 }

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { flattenDeep } from 'lodash-es';
 import { map, Observable } from 'rxjs';
-import { DealsModel, Loan, PropertyLoansModel } from '../models';
+import { DealsModel, PropertyLoansModel } from '../models';
 
 @Injectable({
   providedIn: 'root'
