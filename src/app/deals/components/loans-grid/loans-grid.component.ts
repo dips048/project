@@ -14,9 +14,24 @@ export class LoansGridComponent implements OnInit {
   @Output() filterChange = new EventEmitter();
 
   columnDefs = [
-    { field: 'Loanid', filter: 'agNumberColumnFilter' },
-    { field: 'LoanAmount', filter: 'agNumberColumnFilter' },
-    { field: 'IntrestRate', filter: 'agNumberColumnFilter'},
+    { field: 'Loanid', filter: 'agNumberColumnFilter',
+      filterParams: {
+        buttons: ['apply', 'cancel'],
+        closeOnApply: true,
+      },
+    },
+    { field: 'LoanAmount', filter: 'agNumberColumnFilter',
+      filterParams: {
+        buttons: ['apply', 'cancel'],
+        closeOnApply: true,
+      },
+    },
+    { field: 'IntrestRate', filter: 'agNumberColumnFilter',
+        filterParams: {
+          buttons: ['apply', 'cancel'],
+          closeOnApply: true,
+      },
+    },
     { field: 'DueDate',
       filter: 'agDateColumnFilter',
       hide: true,

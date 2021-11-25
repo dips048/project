@@ -31,10 +31,16 @@ export class ViewLoansComponent implements OnInit {
    * of grid for seting the filter to both grids
    * @param value
    */
-  filterChange(value: any){
+  filterChange(value: any) {
     this.propertyGrid.setFilterValue(value);
     this.loanGrid.setFilterValue(value);
     this.loanDueDateGrid.setFilterValue(value);
+  }
+
+  resetFilters() {
+    this.propertyGrid.setFilterValue(null);
+    this.loanGrid.setFilterValue(null);
+    this.loanDueDateGrid.setFilterValue(null);
   }
 
 }

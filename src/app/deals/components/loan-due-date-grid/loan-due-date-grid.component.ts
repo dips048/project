@@ -15,12 +15,19 @@ export class LoanDueDateGridComponent implements OnInit {
   @Output() filterChange = new EventEmitter();
 
   columnDefs: ColDef[] = [
-    { field: 'Loanid', filter: 'agNumberColumnFilter' },
+    { field: 'Loanid', filter: 'agNumberColumnFilter',
+      filterParams: {
+        buttons: ['apply', 'cancel'],
+        closeOnApply: true,
+      },
+    },
     { field: 'LoanAmount', filter: 'agNumberColumnFilter', hide: true },
     { field: 'IntrestRate', filter: 'agNumberColumnFilter', hide: true },
     { field: 'DueDate',
       filter: 'agDateColumnFilter',
       filterParams: {
+        buttons: ['apply', 'cancel'],
+        closeOnApply: true,
         comparator: (filterLocalDateAtMidnight: Date, cellValue: any) =>  {
           const dateAsString = cellValue;
           if (dateAsString == null) return -1;
@@ -46,6 +53,8 @@ export class LoanDueDateGridComponent implements OnInit {
       field: 'NoteDate',
       filter: 'agDateColumnFilter',
       filterParams: {
+        buttons: ['apply', 'cancel'],
+        closeOnApply: true,
         comparator: (filterLocalDateAtMidnight: Date, cellValue: any) =>  {
           const dateAsString = cellValue;
           if (dateAsString == null) return -1;
