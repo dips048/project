@@ -5,6 +5,7 @@ import { DealsRoutingModule } from './deals-routing.module';
 import { containers } from './containers';
 import { components } from './components';
 import { AgGridModule } from 'ag-grid-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { AgGridModule } from 'ag-grid-angular';
     CommonModule,
     DealsRoutingModule,
     AgGridModule,
+    HttpClientModule
   ]
 })
 export class DealsModule { }
