@@ -3,7 +3,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ViewLoansComponent } from './view-loans.component';
 import { DealsHttpService } from '../../services';
-import { defer } from 'rxjs';
 import { LoansGridComponent } from '../../components/loans-grid/loans-grid.component';
 import { LoanDueDateGridComponent } from '../../components/loan-due-date-grid/loan-due-date-grid.component';
 import { PropertyLoanGridComponent } from '../../components/property-loan-grid/property-loan-grid.component';
@@ -17,34 +16,16 @@ describe('ViewLoansComponent', () => {
       declarations: [ ViewLoansComponent, LoansGridComponent, LoanDueDateGridComponent, PropertyLoanGridComponent ],
       imports: [ HttpClientTestingModule ],
       providers: [DealsHttpService]
-    })
+    }).compileComponents();
 
-    .compileComponents();
-  });
-
-  let hdsSpy: DealsHttpService;
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(ViewLoansComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    hdsSpy = fixture.debugElement.injector.get(DealsHttpService) as any;
-    jasmine.createSpy('getPropertyLoans').and.callFake(
-      () => defer(() => Promise.resolve({})));
   });
+
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should have called `getHero`', () => {
-    expect(jasmine.createSpy('getPropertyLoans').and.callFake(
-      () => defer(() => Promise.resolve({}))).calls.count()).toBeLessThan(3, 'getPropertyLoans called once');
-  });
-
-  it('Call set filter value method', () => {
-    const propertyFilterChange = spyOn(component, 'propertyFilterChange').and.callThrough();
-    expect(propertyFilterChange).not.toHaveBeenCalled()
   });
 
   it('should call `setFilterValue` of loanGrid and loanDueDateGrid on `propertyFilterChange`', () => {
@@ -54,6 +35,7 @@ describe('ViewLoansComponent', () => {
     const loanDueDateGridSpy = spyOn(component.loanDueDateGrid, 'setFilterValue');
 
     component.propertyFilterChange(value)
+    fixture.detectChanges();
     expect(loanGridSpy).toHaveBeenCalledWith(value);
     expect(loanDueDateGridSpy).toHaveBeenCalledWith(value);
   });
@@ -65,6 +47,7 @@ describe('ViewLoansComponent', () => {
   //   const loanDueDateGridSpy = spyOn(component.loanDueDateGrid, 'setFilterValue');
 
   //   component.laonFilterChange(value)
+  //   fixture.detectChanges();
   //   expect(propertyGridGridSpy).toHaveBeenCalledWith(value);
   //   expect(loanDueDateGridSpy).toHaveBeenCalledWith(value);
   // });
@@ -76,6 +59,7 @@ describe('ViewLoansComponent', () => {
   //   const loanGridSpy = spyOn(component.loanGrid, 'setFilterValue');
 
   //   component.loanDueDateFilterChange(value)
+  //   fixture.detectChanges();
   //   expect(propertyGridGridSpy).toHaveBeenCalledWith(value);
   //   expect(loanGridSpy).toHaveBeenCalledWith(value);
   // });

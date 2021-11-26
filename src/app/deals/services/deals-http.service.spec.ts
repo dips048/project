@@ -9,12 +9,14 @@ import { defer } from 'rxjs';
 
 describe('DealsHttpService', () => {
   let service: DealsHttpService;
+  let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ],
       providers: [DealsHttpService]
     });
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     service = TestBed.inject(DealsHttpService);
   });
 
@@ -22,35 +24,17 @@ describe('DealsHttpService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#getPropertyLoans should return value from observable',
-  (done: DoneFn) => {
-  service.getPropertyLoans().subscribe(value => {
-    expect(value).toBe;
-    done();
-  });
-});
-});
-
-// describe ('DealsHttpService (with spies)', () => {
-//   let httpClientSpy: jasmine.SpyObj<HttpClient>;
-//   let service: DealsHttpService;
-
-//   beforeEach(() => {
-//     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-//     service = new DealsHttpService(httpClientSpy);
-//   });
-
   // it('should return expected values (HttpClient called once)', (done: DoneFn) => {
   //   const expectedValues: PropertyLoansModel = {Loanid:1,LoanAmount:81297,IntrestRate:"0.7051",LeaseIndicator:false,NoteDate:"12/2/2020",DueDate:"3/20/2021",name:"Quire",city:"Kallífytos",yearBuilt:1988}
 
-  //   httpClientSpy.get.and.returnValue(defer(() => Promise.resolve(expectedValues)));
+  //   httpClientSpy.get.and.returnValue(defer(() => Promise.resolve()));
 
   //   service.getPropertyLoans().subscribe(
   //     (loans) => {
-  //       expect(loans[0]).toEqual(expectedValues, 'expected heroes');
+  //       expect(loans[0]).toEqual(expectedValues);
   //       done();
   //     },
-  //     done.fail
+  //     // done.fail
   //   );
   //   expect(httpClientSpy.get.calls.count()).toBe(1, 'one call');
   // });
@@ -64,7 +48,7 @@ describe('DealsHttpService', () => {
   //   httpClientSpy.get.and.returnValue(defer(() => Promise.reject(errorResponse)));
 
   //   service.getPropertyLoans().subscribe(
-  //     () => done.fail('expected an error'),
+  //     () => done.fail('expected an error, not value'),
   //     error  => {
   //       expect(error.message).toContain('test 404 error');
   //       done();
@@ -72,4 +56,6 @@ describe('DealsHttpService', () => {
   //   );
   // });
 
-// });
+});
+
+

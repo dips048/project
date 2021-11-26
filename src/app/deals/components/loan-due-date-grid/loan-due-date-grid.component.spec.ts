@@ -40,8 +40,8 @@ describe('LoanDueDateGridComponent', () => {
     const emitSpy = spyOn(component.filterChange, 'emit');
 
     const nativeElement = fixture.debugElement.nativeElement;
-    const button = nativeElement.querySelector(['ag-grid-angular']);
-    button.dispatchEvent(new Event('filterChanged'));
+    const grid = nativeElement.querySelector(['ag-grid-angular']);
+    grid.dispatchEvent(new Event('filterChanged'));
 
     expect(emitSpy).toHaveBeenCalled();
   });
