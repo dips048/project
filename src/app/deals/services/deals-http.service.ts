@@ -19,9 +19,9 @@ export class DealsHttpService {
    */
   getPropertyLoans(): Observable<Array<PropertyLoansModel>> {
     return this.httpClient.get<Array<DealsModel>>("assets/deals.json").pipe(
-      map(deals => deals.map(deal => deal.Loans)),
+      map(deals => deals?.map(deal => deal.Loans)),
       map(Loans => flattenDeep(Loans)),
-      map(loans => loans.map((loan) => loan.Properties.map(property => ({...loan,...property, Properties: null})))),
+      map(loans => loans.map((loan) => loan?.Properties.map(property => ({...loan,...property, Properties: null})))),
       map(properties => flattenDeep(properties)),
     );
   }

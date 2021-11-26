@@ -1,5 +1,5 @@
 <button (click)="resetFilters()">Clear filters</button>
 <app-property-loan-grid #propertyGrid [rowData]="propertyLoans$ | async" (filterChange)="propertyFilterChange($event)"></app-property-loan-grid>
-<app-loans-grid #loanGrid [rowData]="propertyLoans$ | async" (filterChange)="laonFilterChange($event)"></app-loans-grid>
+<app-loans-grid #loanGrid [rowData]="propertyLoans$ | async" (filterChange)="loanFilterChange($event)"></app-loans-grid>
 <app-loan-due-date-grid #loanDueDateGrid [rowData]="propertyLoans$ | async" (filterChange)="loanDueDateFilterChange($event)"></app-loan-due-date-grid>
 
