@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LoanDueDateGridComponent } from '../../components/loan-due-date-grid/loan-due-date-grid.component';
 import { LoansGridComponent } from '../../components/loans-grid/loans-grid.component';
 import { PropertyLoanGridComponent } from '../../components/property-loan-grid/property-loan-grid.component';
 import { PropertyLoansModel } from '../../models';
@@ -11,11 +12,10 @@ import { DealsHttpService } from '../../services';
   styleUrls: ['./view-loans.component.css']
 })
 export class ViewLoansComponent implements OnInit {
-  [x: string]: any;
 
   @ViewChild('propertyGrid') propertyGrid: PropertyLoanGridComponent;
   @ViewChild('loanGrid') loanGrid: LoansGridComponent;
-  @ViewChild('loanDueDateGrid') loanDueDateGrid: LoansGridComponent;
+  @ViewChild('loanDueDateGrid') loanDueDateGrid: LoanDueDateGridComponent;
 
   propertyLoans$: Observable<PropertyLoansModel[]>;
 
@@ -32,7 +32,6 @@ export class ViewLoansComponent implements OnInit {
    * of grid for seting the filter to `loanGrid` and loan `loanDueDateGrid`
    */
   propertyFilterChange(value: Record<string, Record<string, any>>) {
-    console.log('value', value);
     this.loanGrid.setFilterValue(value);
     this.loanDueDateGrid.setFilterValue(value);
   }

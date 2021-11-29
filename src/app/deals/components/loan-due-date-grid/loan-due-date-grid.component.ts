@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef } from 'ag-grid-community';
+import { PropertyLoansModel } from '../../models';
 
 @Component({
   selector: 'app-loan-due-date-grid',
@@ -11,10 +11,10 @@ export class LoanDueDateGridComponent implements OnInit {
 
   @ViewChild('myGrid') myGrid: AgGridAngular;
 
-  @Input() rowData: Array<any> | null;
+  @Input() rowData: Array<PropertyLoansModel>;
   @Output() filterChange = new EventEmitter();
 
-  columnDefs: ColDef[] = [
+  columnDefs = [
     { field: 'Loanid', filter: 'agNumberColumnFilter',
       filterParams: {
         buttons: ['apply', 'cancel'],

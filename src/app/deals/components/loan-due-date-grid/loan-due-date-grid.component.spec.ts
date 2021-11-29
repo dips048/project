@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-import { GridApi, SetFilterValues } from 'ag-grid-community';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { LoanDueDateGridComponent } from './loan-due-date-grid.component';
 

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
+import { PropertyLoansModel } from '../../models';
 
 @Component({
   selector: 'app-loans-grid',
@@ -10,7 +11,7 @@ export class LoansGridComponent implements OnInit {
 
   @ViewChild('myGrid') myGrid: AgGridAngular;
 
-  @Input() rowData: Array<any> | null;
+  @Input() rowData: Array<PropertyLoansModel>;
   @Output() filterChange = new EventEmitter();
 
   columnDefs = [
