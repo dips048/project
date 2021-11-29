@@ -16,10 +16,10 @@ export class PropertyLoanGridComponent implements OnInit {
 
   columnDefs = [
     { field: 'Loanid', filter: 'agNumberColumnFilter',
-      filterParams: {
-        buttons: ['apply', 'cancel'],
-        closeOnApply: true,
-      },
+      // filterParams: {
+      //   buttons: ['apply', 'cancel'],
+      //   closeOnApply: true,
+      // },
     },
     { field: 'LoanAmount', filter: 'agNumberColumnFilter',hide: true  },
     { field: 'IntrestRate', filter: 'agNumberColumnFilter', hide: true },
@@ -78,22 +78,22 @@ export class PropertyLoanGridComponent implements OnInit {
       headerName: 'Property Details',
       children: [
         { field: 'name', filter: 'agTextColumnFilter', columnGroupShow: 'oepn',
-          filterParams: {
-            buttons: ['apply', 'cancel'],
-            closeOnApply: true,
-          },
+          // filterParams: {
+          //   buttons: ['apply', 'cancel'],
+          //   closeOnApply: true,
+          // },
         },
         { field: 'city', filter: 'agTextColumnFilter', columnGroupShow: 'closed',
-          filterParams: {
-            buttons: ['apply', 'cancel'],
-            closeOnApply: true,
-          },
+          // filterParams: {
+          //   buttons: ['apply', 'cancel'],
+          //   closeOnApply: true,
+          // },
         },
         { field: 'yearBuilt', filter: 'agNumberColumnFilter', columnGroupShow: 'closed',
-          filterParams: {
-            buttons: ['apply', 'cancel'],
-            closeOnApply: true,
-          },
+          // filterParams: {
+          //   buttons: ['apply', 'cancel'],
+          //   closeOnApply: true,
+          // },
         },
       ]
     }

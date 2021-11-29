@@ -1,5 +1,9 @@
-<button (click)="resetFilters()">Clear filters</button>
-<app-property-loan-grid *ngIf="propertyLoans$ | async as propertyLoans" #propertyGrid [rowData]="propertyLoans" (filterChange)="propertyFilterChange($event)"></app-property-loan-grid>
-<app-loans-grid *ngIf="propertyLoans$ | async as propertyLoans" #loanGrid [rowData]="propertyLoans" (filterChange)="loanFilterChange($event)"></app-loans-grid>
-<app-loan-due-date-grid *ngIf="propertyLoans$ | async as propertyLoans" #loanDueDateGrid [rowData]="propertyLoans" (filterChange)="loanDueDateFilterChange($event)"></app-loan-due-date-grid>
-
+<ng-container *ngIf="propertyLoans$ | async as propertyLoans; else loader">
+  <button (click)="resetFilters()">Clear filters</button>
+  <app-property-loan-grid  #propertyGrid [rowData]="propertyLoans" (filterChange)="propertyFilterChange($event)"></app-property-loan-grid>
+  <app-loans-grid #loanGrid [rowData]="propertyLoans" (filterChange)="loanFilterChange($event)"></app-loans-grid>
+  <app-loan-due-date-grid #loanDueDateGrid [rowData]="propertyLoans" (filterChange)="loanDueDateFilterChange($event)"></app-loan-due-date-grid>
+</ng-container>
+<ng-template #loader>
+  <mat-progress-spinner></mat-progress-spinner>
+</ng-template>
