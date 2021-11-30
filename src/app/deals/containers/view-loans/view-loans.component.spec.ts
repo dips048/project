@@ -2,9 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ViewLoansComponent } from './view-loans.component';
 import { DealsHttpService } from '../../services';
-import { LoansGridComponent } from '../../components/loans-grid/loans-grid.component';
-import { LoanDueDateGridComponent } from '../../components/loan-due-date-grid/loan-due-date-grid.component';
-import { PropertyLoanGridComponent } from '../../components/property-loan-grid/property-loan-grid.component';
 import { PropertyLoansModel } from '../../models';
 import { of } from 'rxjs';
 
@@ -12,11 +9,11 @@ describe('ViewLoansComponent', () => {
   let component: ViewLoansComponent;
   let fixture: ComponentFixture<ViewLoansComponent>;
   let service: DealsHttpService;
-  // const value = { Loanid: {filter: 1, filterType: "number", type: "equals"}}
+  const value = { Loanid: {filter: 1, filterType: "number", type: "equals"}}
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewLoansComponent, LoansGridComponent, LoanDueDateGridComponent, PropertyLoanGridComponent ],
+      declarations: [ ViewLoansComponent ],
       imports: [ HttpClientTestingModule ],
       providers: [DealsHttpService]
     }).compileComponents();
@@ -45,49 +42,28 @@ describe('ViewLoansComponent', () => {
     expect(spy.calls.count()).toBe(1);
   });
 
-  // it('should call `setFilterValue` of loanGrid and loanDueDateGrid on `propertyFilterChange`', () => {
+  it('should call `propertyFilterChange`', () => {
+    const propertyloanGridSpy = spyOn(component, 'propertyFilterChange');
+    component.propertyFilterChange(value)
+    expect(propertyloanGridSpy).toHaveBeenCalledWith(value);
+  });
 
-  //   const loanGridSpy = spyOn(component.loanGrid, 'setFilterValue');
-  //   const loanDueDateGridSpy = spyOn(component.loanDueDateGrid, 'setFilterValue');
+  it('should call `loanFilterChange`', () => {
+    const loanGridSpy = spyOn(component, 'loanFilterChange');
+    component.loanFilterChange(value)
+    expect(loanGridSpy).toHaveBeenCalledWith(value);
+  });
 
-  //   component.propertyFilterChange(value)
-  //   expect(loanGridSpy).toHaveBeenCalledWith(value);
-  //   expect(loanDueDateGridSpy).toHaveBeenCalledWith(value);
-  // });
+  it('should call `loanDueDateFilterChange`', () => {
+    const loanDueDateGridSpy = spyOn(component, 'loanDueDateFilterChange');
+    component.loanDueDateFilterChange(value)
+    expect(loanDueDateGridSpy).toHaveBeenCalledWith(value);
+  });
 
-  // it('should call `setFilterValue` of propertyGrid and loanDueDateGrid on `loanFilterChange`', () => {
-  //   const propertyGridGridSpy = spyOn(component.propertyGrid, 'setFilterValue');
-  //   const loanGridSpy = spyOn(component.loanGrid, 'setFilterValue');
-  //   const loanDueDateGridSpy = spyOn(component.loanDueDateGrid, 'setFilterValue');
-
-  //   component.loanFilterChange(value)
-  //   fixture.detectChanges();
-  //   expect(propertyGridGridSpy).toHaveBeenCalledWith(value);
-  //   expect(loanDueDateGridSpy).toHaveBeenCalledWith(value);
-  // });
-
-  // it('should call `setFilterValue` of propertyGrid and loanGrid on `loanDueDateFilterChange`', () => {
-  //   const value = { Loanid: {filter: 1, filterType: "number", type: "equals"}}
-
-  //   const propertyGridGridSpy = spyOn(component.propertyGrid, 'setFilterValue');
-  //   const loanGridSpy = spyOn(component.loanGrid, 'setFilterValue');
-
-  //   component.loanDueDateFilterChange(value)
-  //   fixture.detectChanges();
-  //   expect(propertyGridGridSpy).toHaveBeenCalledWith(value);
-  //   expect(loanGridSpy).toHaveBeenCalledWith(value);
-  // });
-
-  // it('should call `setFilterValue` of loanGrid and loanDueDateGrid on `resetFilters`', () => {
-  //   const propertyGridGridSpy = spyOn(component.propertyGrid, 'setFilterValue');
-  //   const loanGridSpy = spyOn(component.loanGrid, 'setFilterValue');
-  //   const loanDueDateGridSpy = spyOn(component.loanDueDateGrid, 'setFilterValue');
-
-  //   component.resetFilters()
-  //   fixture.detectChanges();
-  //   expect(propertyGridGridSpy).toHaveBeenCalledWith(null);
-  //   expect(loanGridSpy).toHaveBeenCalledWith(null);
-  //   expect(loanDueDateGridSpy).toHaveBeenCalledWith(null);
-  // });
+  it('should call `resetFilters`', () => {
+    const propertyGridGridSpy = spyOn(component, 'resetFilters');
+    component.resetFilters()
+    expect(propertyGridGridSpy).toHaveBeenCalled();
+  });
 
 });

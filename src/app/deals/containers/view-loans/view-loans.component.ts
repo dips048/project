@@ -40,8 +40,8 @@ export class ViewLoansComponent implements OnInit {
    * If the filter changes in `loanGrid` then this method will call @method setFilterValue
    * of grid for seting the filter to `propertyLoanGrid` and `loanDueDateGrid`
    */
-   loanFilterChange(value: any) {
-    this.loanGrid.setFilterValue(value);
+  loanFilterChange(value: any) {
+    this.propertyGrid.setFilterValue(value);
     this.loanDueDateGrid.setFilterValue(value);
   }
 
@@ -51,7 +51,7 @@ export class ViewLoansComponent implements OnInit {
    */
   loanDueDateFilterChange(value: any) {
     this.loanGrid.setFilterValue(value);
-    this.loanDueDateGrid.setFilterValue(value);
+    this.propertyGrid.setFilterValue(value);
   }
 
   /**
