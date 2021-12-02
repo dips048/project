@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "testcc": "ng test --no-watch --code-coverage",
     "cypress:open": "cypress open"
   },
   "private": true,
@@ -45,6 +46,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "ng-mocks": "^12.5.0",
     "typescript": "~4.4.3"
   }
 }

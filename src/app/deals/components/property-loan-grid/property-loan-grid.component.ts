@@ -27,25 +27,7 @@ export class PropertyLoanGridComponent implements OnInit {
       filter: 'agDateColumnFilter',
       hide: true,
       filterParams: {
-        comparator: (filterLocalDateAtMidnight: Date, cellValue: any) =>  {
-          const dateAsString = cellValue;
-          if (dateAsString == null) return -1;
-          const dateParts = dateAsString.split('/');
-          const cellDate = new Date(
-            Number(dateParts[2]),
-            Number(dateParts[1]) - 1,
-            Number(dateParts[0])
-          );
-          if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
-            return 0;
-          }
-          if (cellDate < filterLocalDateAtMidnight) {
-            return -1;
-          }
-          if (cellDate > filterLocalDateAtMidnight) {
-            return 1;
-          }
-        }
+        comparator: (filterLocalDateAtMidnight: Date, cellValue: any) => this.dateComparator(filterLocalDateAtMidnight,cellValue)
       }
     },
     {
@@ -53,25 +35,7 @@ export class PropertyLoanGridComponent implements OnInit {
       filter: 'agDateColumnFilter',
       hide: true,
       filterParams: {
-        comparator: (filterLocalDateAtMidnight: Date, cellValue: any) =>  {
-          const dateAsString = cellValue;
-          if (dateAsString == null) return -1;
-          const dateParts = dateAsString.split('/');
-          const cellDate = new Date(
-            Number(dateParts[2]),
-            Number(dateParts[1]) - 1,
-            Number(dateParts[0])
-          );
-          if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
-            return 0;
-          }
-          if (cellDate < filterLocalDateAtMidnight) {
-            return -1;
-          }
-          if (cellDate > filterLocalDateAtMidnight) {
-            return 1;
-          }
-        }
+        comparator: (filterLocalDateAtMidnight: Date, cellValue: any) => this.dateComparator(filterLocalDateAtMidnight,cellValue)
       }
     },
     {
@@ -111,5 +75,31 @@ export class PropertyLoanGridComponent implements OnInit {
    */
   setFilterValue(value: any) {
     this.myGrid.api.setFilterModel(value);
+  }
+
+  /**
+   * checks `filterLocalDateAtMidnight` and `cellValue` date and return 0,1,1 and undifined accordingly
+   *
+   * @param filterLocalDateAtMidnight
+   * @param cellValue
+   */
+  dateComparator(filterLocalDateAtMidnight: Date, cellValue: any) {
+    const dateAsString = cellValue;
+    if (dateAsString == null) return -1;
+    const dateParts = dateAsString.split('/');
+    const cellDate = new Date(
+      Number(dateParts[2]),
+      Number(dateParts[1]) - 1,
+      Number(dateParts[0])
+    );
+    if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+      return 0;
+    }
+    if (cellDate < filterLocalDateAtMidnight) {
+      return -1;
+    }
+    if (cellDate > filterLocalDateAtMidnight) {
+      return 1;
+    }
   }
 }

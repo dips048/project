@@ -54,4 +54,26 @@ describe('LoanDueDateGridComponent', () => {
     expect(setFilterModelSpy).toHaveBeenCalledWith(value);
   });
 
+  it('should call dateComparator method LoanDueDateGridComponent', () => {
+    spyOn(component, 'dateComparator').and.callThrough();
+
+    component.dateComparator(new Date(2021,11,2), '2/12/2021');
+    expect(component.dateComparator).toHaveBeenCalledWith(new Date(2021,11,2), '2/12/2021');
+    expect(component.dateComparator(new Date(2021,11,2), '2/12/2021')).toEqual(0);
+
+    component.dateComparator(new Date(2021,11,2), '2/12/2022');
+    expect(component.dateComparator).toHaveBeenCalledWith(new Date(2021,11,2), '2/12/2022');
+    expect(component.dateComparator(new Date(2021,11,2), '2/12/2022')).toEqual(1);
+
+    component.dateComparator(new Date(2021,11,2), '2/11/2020');
+    expect(component.dateComparator).toHaveBeenCalledWith(new Date(2021,11,2), '2/11/2020');
+    expect(component.dateComparator(new Date(2021,11,2), '2/11/2020')).toEqual(-1);
+
+    component.dateComparator(new Date(2021,11,2), undefined);
+    expect(component.dateComparator).toHaveBeenCalledWith(new Date(2021,11,2), undefined);
+    expect(component.dateComparator(new Date(2021,11,2), undefined)).toEqual(-1);
+
+  });
+
+
 });
