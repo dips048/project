@@ -1,54 +1,42 @@
-function addFilterToGrid(grid, colId, value) {
-  cy.get(`[data-cy=${grid}`)
-  cy.get(`[data-cy=${grid}] [col-id="${colId}"] .ag-icon-menu`)
-  .click()
-  cy.get(`[data-cy=${grid}] .ag-filter-filter`)
-  .first()
-  .clear()
-  .type(value)
-  cy.get('button').contains('Apply').click()
-}
-
-function applyMultipleValueFilterToGrid(grid, colId, value1, condition, value2) {
-  cy.get(`[data-cy=${grid}`)
-  cy.get(`[data-cy=${grid}] [col-id="${colId}"] .ag-icon-menu`)
-  .click()
-  cy.get(`[data-cy=${grid}] .ag-filter-filter`)
-  .first()
-  .clear()
-  .type(value1)
-  cy.get('.ag-filter-condition-operator').contains(condition).click()
-  cy.get(`[data-cy=${grid}] [res="eCondition2Body"] .ag-filter-filter`)
-  .clear()
-  .type(value2)
-  cy.get('button').contains('Apply').click()
-}
+import FilterPage from "./page-object/filter-page"
 
 describe('Ag grid filters', () => {
-
+  const filter = new FilterPage();
   beforeEach(() => {
-    cy.visit('/')
-  });
+    filter.navigate();
+  })
 
   it('filters for loanid in loans grid', () => {
-    addFilterToGrid('loansGrid', 'Loanid', '1');
-    addFilterToGrid('loansGrid', 'Loanid', '2');
-    addFilterToGrid('propertyLoanGrid', 'city', 'Wudui');
-    cy.get('button').contains('Clear filters').click()
+    filter.addFilterToGrid('loansGrid', 'Loanid', '1');
+
+    filter.checkFilter('loansGrid', 'Loanid', '1');
+    filter.checkFilter('loanDueDateGrid', 'Loanid', '1');
+    filter.checkFilter('propertyLoanGrid', 'Loanid', '1');
+
+    filter.clearFilters();
   })
 
   it('filters for loanid in loan due date grid', () => {
-    addFilterToGrid('loanDueDateGrid', 'Loanid', '1');
-    cy.get('button').contains('Clear filters').click()
+    filter.addFilterToGrid('loanDueDateGrid', 'Loanid', '1');
+
+    filter.checkFilter('loanDueDateGrid', 'Loanid', '1');
+    filter.checkFilter('loansGrid', 'Loanid', '1');
+    filter.checkFilter('propertyLoanGrid', 'Loanid', '1');
+
+    filter.clearFilters();
   });
 
-  it.only('filters for loanid in property grid', () => {
-    addFilterToGrid('propertyLoanGrid', 'city', 'Wudui');
-    // applyMultipleValueFilterToGrid('propertyLoanGrid', 'city', 'Wudui', 'OR', 'Quva');
-    cy.get('button').contains('Clear filters').click()
+  it('filters for loanid in property grid', () => {
+    filter.addFilterToGrid('propertyLoanGrid', 'city', 'Wudui');
+
+    filter.checkFilter('propertyLoanGrid', 'city', 'Wudui');
+
+    filter.clearFilters();
   });
 
 })
 
-
-
+// cy.get(`[data-cy=propertyLoanGrid] .ag-center-cols-container .ag-row`).its('length').then((val)=>{
+//   cy.get(`[data-cy=loansGrid] .ag-center-cols-container .ag-row`).its('length').should('eq',val)
+//   cy.get(`[data-cy=propertyLoanGrid] .ag-center-cols-container .ag-row`).its('length').should('eq',val)
+// })
