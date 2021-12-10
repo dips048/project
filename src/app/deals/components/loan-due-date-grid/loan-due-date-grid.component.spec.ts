@@ -35,14 +35,28 @@ describe('LoanDueDateGridComponent', () => {
     expect(component.myGrid.gridOptions.api).toBeTruthy();
   });
 
-  it('should emit on filterChange', () => {
+  it('on filterChanged event should call forEachNodeAfterFilter, forEachNode and onSelectionChanged', () => {
     const emitSpy = spyOn(component.filterChange, 'emit');
+    const selectionChangeSpy = spyOn(component, 'onSelectionChanged');
+    spyOn(component.myGrid.api, 'forEachNodeAfterFilter');
+    spyOn(component.myGrid.api, 'forEachNode');
 
     const nativeElement = fixture.debugElement.nativeElement;
     const grid = nativeElement.querySelector(['ag-grid-angular']);
     grid.dispatchEvent(new Event('filterChanged'));
 
     expect(emitSpy).toHaveBeenCalled();
+    expect(selectionChangeSpy).toHaveBeenCalled();
+    expect(component.myGrid.api.forEachNodeAfterFilter).toHaveBeenCalled();
+    expect(component.myGrid.api.forEachNode).toHaveBeenCalled();
+  });
+
+  it('should set selectedRows value  onSelectionChanged call', () => {
+    const selectedRows = [ {Loanid: 2, LoanAmount: 14200, IntrestRate: 0.5737, LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", Properties: null, PaymentTerms: [ { IndexTermType: "hub" }, { IndexTermType: "capability" } ], name: "Mynte", city: "Častolovice", yearBuilt: 1995 } ];
+    const selectRowsSpy = spyOn(component.myGrid.api, 'getSelectedRows').and.returnValue(selectedRows);
+    component.onSelectionChanged();
+    expect(selectRowsSpy).toHaveBeenCalled;
+    expect(component.selectedRows).toEqual(1);
   });
 
   it('should call `setFilterModel` on `setFilterValue`', () => {

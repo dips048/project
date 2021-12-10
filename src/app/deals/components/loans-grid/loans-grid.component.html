@@ -1,6 +1,12 @@
-<ag-grid-angular data-cy="loansGrid" #myGrid (filterChanged)="filterChange.emit(myGrid.api.getFilterModel())"
+<div>
+  <span>selected rows: {{selectedRows}}</span>
+</div>
+<ag-grid-angular data-cy="loansGrid" #myGrid (filterChanged)="onFilterChanged()"
+    style="width: 800px; height: 500px;"
     style="width: 600px; height: 500px;"
     class="ag-theme-alpine"
     [rowData]="rowData"
-    [columnDefs]="columnDefs">
+    [gridOptions]="gridOptions"
+>
 </ag-grid-angular>
+

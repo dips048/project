@@ -6,14 +6,19 @@ describe('Ag grid filters', () => {
     filter.navigate();
   })
 
-  it('filters for loanid in loans grid', () => {
-    filter.addFilterToGrid('loansGrid', 'Loanid', '1');
+  it.only('filters for loanid in loans grid', () => {
+    // filter.addFilterToGrid('loansGrid', 'Loanid', '1');
 
-    filter.checkFilter('loansGrid', 'Loanid', '1');
-    filter.checkFilter('loanDueDateGrid', 'Loanid', '1');
-    filter.checkFilter('propertyLoanGrid', 'Loanid', '1');
+    // filter.checkFilter('loansGrid', 'Loanid', '1');
+    // filter.checkFilter('loanDueDateGrid', 'Loanid', '1');
+    // filter.checkFilter('propertyLoanGrid', 'Loanid', '1');
 
-    filter.clearFilters();
+    // filter.clearFilters();
+    // filter.checkRowNotSelected('propertyLoanGrid');
+    // filter.selectRows('propertyLoanGrid', 5);
+    // filter.addFilterToGrid('propertyLoanGrid', 'Loanid', '1');
+
+    filter.checkRowWithFilter('propertyLoanGrid', 'Loanid', '1');
   })
 
   it('filters for loanid in loan due date grid', () => {

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
+import { GridOptions, RowNode } from 'ag-grid-community';
 import { PropertyLoansModel } from '../../models';
 
 @Component({
@@ -14,40 +15,61 @@ export class LoanDueDateGridComponent implements OnInit {
   @Input() rowData: Array<PropertyLoansModel>;
   @Output() filterChange = new EventEmitter();
 
-  columnDefs = [
-    { field: 'Loanid', filter: 'agNumberColumnFilter',
-      filterParams: {
-        buttons: ['apply', 'cancel'],
-        closeOnApply: true,
+  gridOptions: GridOptions = {
+    columnDefs: [
+      { field: 'Loanid', filter: 'agNumberColumnFilter',
+        filterParams: {
+          buttons: ['apply', 'cancel'],
+          closeOnApply: true,
+        },
+        checkboxSelection: true
       },
-    },
-    { field: 'LoanAmount', filter: 'agNumberColumnFilter', hide: true },
-    { field: 'IntrestRate', filter: 'agNumberColumnFilter', hide: true },
-    { field: 'DueDate',
-      filter: 'agDateColumnFilter',
-      filterParams: {
-        buttons: ['apply', 'cancel'],
-        closeOnApply: true,
-        comparator: (filterLocalDateAtMidnight: Date, cellValue: any) => this.dateComparator(filterLocalDateAtMidnight,cellValue)
-      }
-    },
-    {
-      field: 'NoteDate',
-      filter: 'agDateColumnFilter',
-      filterParams: {
-        buttons: ['apply', 'cancel'],
-        closeOnApply: true,
-        comparator: (filterLocalDateAtMidnight: Date, cellValue: any) => this.dateComparator(filterLocalDateAtMidnight,cellValue)
-      }
-    },
-    { field: 'name', filter: 'agTextColumnFilter', hide: true },
-    { field: 'city', filter: 'agTextColumnFilter', hide: true },
-    { field: 'yearBuilt', filter: 'agNumberColumnFilter', hide: true },
-  ];
+      { field: 'LoanAmount', filter: 'agNumberColumnFilter', hide: true },
+      { field: 'IntrestRate', filter: 'agNumberColumnFilter', hide: true },
+      { field: 'DueDate',
+        filter: 'agDateColumnFilter',
+        filterParams: {
+          buttons: ['apply', 'cancel'],
+          closeOnApply: true,
+          comparator: (filterLocalDateAtMidnight: Date, cellValue: any) => this.dateComparator(filterLocalDateAtMidnight,cellValue)
+        }
+      },
+      {
+        field: 'NoteDate',
+        filter: 'agDateColumnFilter',
+        filterParams: {
+          buttons: ['apply', 'cancel'],
+          closeOnApply: true,
+          comparator: (filterLocalDateAtMidnight: Date, cellValue: any) => this.dateComparator(filterLocalDateAtMidnight,cellValue)
+        }
+      },
+      { field: 'name', filter: 'agTextColumnFilter', hide: true },
+      { field: 'city', filter: 'agTextColumnFilter', hide: true },
+      { field: 'yearBuilt', filter: 'agNumberColumnFilter', hide: true },
+    ],
+    rowSelection: 'multiple',
+    rowMultiSelectWithClick: true,
+    onSelectionChanged: () => this.onSelectionChanged(),
+  };
+
+  selectedRows = 0;
 
   constructor() { }
 
   ngOnInit(): void { }
+
+  onSelectionChanged() {
+    const selectedRows = this.myGrid.api.getSelectedRows();
+    this.selectedRows = selectedRows.length;
+  }
+
+  onFilterChanged() {
+    this.filterChange.emit(this.myGrid.api.getFilterModel());
+    let nodes: RowNode[] = [];
+    this.myGrid.api.forEachNodeAfterFilter(node => { if(node.isSelected()) { nodes.push(node); }});
+    this.myGrid.api.forEachNode(node => nodes.includes(node) ? node.setSelected(true) : node.setSelected(false));
+    this.onSelectionChanged();
+  }
 
   /**
    * set the filter value of a grid
