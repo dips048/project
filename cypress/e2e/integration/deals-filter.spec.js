@@ -6,43 +6,53 @@ describe('Ag grid filters', () => {
     filter.navigate();
   })
 
-  it.only('filters for loanid in loans grid', () => {
-    // filter.addFilterToGrid('loansGrid', 'Loanid', '1');
+  describe('property loan grid', () => {
+    it('should apply filter on other grids if apply filter on the property loan grid', () => {
+      filter.addFilterToGrid('propertyLoanGrid', 'Loanid', '1');
 
-    // filter.checkFilter('loansGrid', 'Loanid', '1');
-    // filter.checkFilter('loanDueDateGrid', 'Loanid', '1');
-    // filter.checkFilter('propertyLoanGrid', 'Loanid', '1');
+      filter.checkFilter('loansGrid', 'Loanid', '1');
+      filter.checkFilter('loanDueDateGrid', 'Loanid', '1');
+      filter.checkFilter('propertyLoanGrid', 'Loanid', '1');
 
-    // filter.clearFilters();
-    // filter.checkRowNotSelected('propertyLoanGrid');
-    // filter.selectRows('propertyLoanGrid', 5);
-    // filter.addFilterToGrid('propertyLoanGrid', 'Loanid', '1');
+      filter.clearFilters();
+    })
 
-    filter.selectRows('propertyLoanGrid', 3)
-    filter.addFilterToGrid('propertyLoanGrid', 'Loanid', '1');
-    filter.checkRowSelectedAfterFilter('propertyLoanGrid', 'Loanid', '1');
-
-    filter.selectAllRows('propertyLoanGrid');
+    it.only('should select rows and after apply filter should change the selected rows by filter', () => {
+      filter.selectRowsRange('propertyLoanGrid', 0, 10);
+      filter.addFilterToGrid('propertyLoanGrid', 'Loanid', '1');
+      filter.checkRowSelectedAfterFilter('propertyLoanGrid', 'Loanid', '1');
+    })
   })
 
-  it('filters for loanid in loan due date grid', () => {
-    filter.addFilterToGrid('loanDueDateGrid', 'Loanid', '1');
+  describe('loans grid', () => {
+    it('should apply filter on other grids if apply filter on the loans grid', () => {
+      filter.addFilterToGrid('loansGrid', 'Loanid', '1');
 
-    filter.checkFilter('loanDueDateGrid', 'Loanid', '1');
-    filter.checkFilter('loansGrid', 'Loanid', '1');
-    filter.checkFilter('propertyLoanGrid', 'Loanid', '1');
+      filter.checkFilter('loansGrid', 'Loanid', '1');
+      filter.checkFilter('loanDueDateGrid', 'Loanid', '1');
+      filter.checkFilter('propertyLoanGrid', 'Loanid', '1');
 
-    filter.clearFilters();
-  });
+      filter.clearFilters();
+    })
 
-  it('filters for loanid in property grid', () => {
-    filter.addFilterToGrid('propertyLoanGrid', 'city', 'Wudui');
+    it('should select rows and after apply filter should change the selected rows by filter', () => {
+      filter.selectRowsRange('propertyLoanGrid', 0, 10);
+      filter.addFilterToGrid('propertyLoanGrid', 'Loanid', '1');
+      filter.checkRowSelectedAfterFilter('propertyLoanGrid', 'Loanid', '1');
+    })
+  })
 
-    filter.checkFilter('propertyLoanGrid', 'city', 'Wudui');
+  describe('loan due date grid', () => {
+    it('should apply filter on other grids if apply filter on the loanDueDateGrid', () => {
+      filter.addFilterToGrid('loanDueDateGrid', 'Loanid', '1');
 
-    filter.clearFilters();
-  });
+      filter.checkFilter('loansGrid', 'Loanid', '1');
+      filter.checkFilter('loanDueDateGrid', 'Loanid', '1');
+      filter.checkFilter('propertyLoanGrid', 'Loanid', '1');
 
+      filter.clearFilters();
+    })
+  })
 })
 
 // cy.get(`[data-cy=propertyLoanGrid] .ag-center-cols-container .ag-row`).its('length').then((val)=>{
