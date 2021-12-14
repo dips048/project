@@ -56,7 +56,9 @@ export class LoanDueDateGridComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+  }
 
   onSelectionChanged() {
     const selectedRows = this.myGrid.api.getSelectedRows();
@@ -65,10 +67,16 @@ export class LoanDueDateGridComponent implements OnInit {
 
   onFilterChanged() {
     this.filterChange.emit(this.myGrid.api.getFilterModel());
-    let nodes: RowNode[] = [];
-    this.myGrid.api.forEachNodeAfterFilter(node => { if(node.isSelected()) { nodes.push(node); }});
-    this.myGrid.api.forEachNode(node => nodes.includes(node) ? node.setSelected(true) : node.setSelected(false));
+    this.setSelectedNodesAfterFilter();
     this.onSelectionChanged();
+  }
+
+  setSelectedNodesAfterFilter() {
+    let nodes: RowNode[] = [];
+    this.myGrid.api.forEachNodeAfterFilter(node => {
+      if(node.isSelected()) { nodes.push(node);} return
+    });
+    this.myGrid.api.forEachNode(node => nodes.includes(node) ? node.setSelected(true) : node.setSelected(false));
   }
 
   /**

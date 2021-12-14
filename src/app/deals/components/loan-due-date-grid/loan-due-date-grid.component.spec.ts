@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
-
 import { LoanDueDateGridComponent } from './loan-due-date-grid.component';
-
 
 describe('LoanDueDateGridComponent', () => {
   let component: LoanDueDateGridComponent;
@@ -33,22 +31,6 @@ describe('LoanDueDateGridComponent', () => {
   it('grid API is available after `detectChanges`', () => {
     fixture.detectChanges();
     expect(component.myGrid.gridOptions.api).toBeTruthy();
-  });
-
-  it('on filterChanged event should call forEachNodeAfterFilter, forEachNode and onSelectionChanged', () => {
-    const emitSpy = spyOn(component.filterChange, 'emit');
-    const selectionChangeSpy = spyOn(component, 'onSelectionChanged');
-    spyOn(component.myGrid.api, 'forEachNodeAfterFilter');
-    spyOn(component.myGrid.api, 'forEachNode');
-
-    const nativeElement = fixture.debugElement.nativeElement;
-    const grid = nativeElement.querySelector(['ag-grid-angular']);
-    grid.dispatchEvent(new Event('filterChanged'));
-
-    expect(emitSpy).toHaveBeenCalled();
-    expect(selectionChangeSpy).toHaveBeenCalled();
-    expect(component.myGrid.api.forEachNodeAfterFilter).toHaveBeenCalled();
-    expect(component.myGrid.api.forEachNode).toHaveBeenCalled();
   });
 
   it('should set selectedRows value  onSelectionChanged call', () => {
@@ -89,5 +71,57 @@ describe('LoanDueDateGridComponent', () => {
 
   });
 
+  describe('filterchange', () => {
+    const filterValue: any = { Loanid: {filter: 1, filterType: "number", type: "equals"}}
+
+    beforeEach(() => {
+      component.rowData = [
+        {Loanid: 1, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 },
+        {Loanid: 2, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 },
+        {Loanid: 3, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 },
+        {Loanid: 4, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 }
+      ];
+    })
+
+    it('should emit filter value on filter change', () => {
+      const emitSpy = spyOn(component.filterChange, 'emit');
+
+      component.setFilterValue(filterValue);
+
+      const nativeElement = fixture.debugElement.nativeElement;
+      const grid = nativeElement.querySelector(['ag-grid-angular']);
+      grid.dispatchEvent(new Event('filterChanged'));
+
+      expect(emitSpy).toHaveBeenCalledWith(filterValue);
+    });
+
+    it('should call the OnSelctionchange method', () => {
+      const selectionChangeSpy = spyOn(component, 'onSelectionChanged');
+
+      const nativeElement = fixture.debugElement.nativeElement;
+      const grid = nativeElement.querySelector(['ag-grid-angular']);
+      grid.dispatchEvent(new Event('filterChanged'));
+
+      expect(selectionChangeSpy).toHaveBeenCalled();
+    })
+
+    it('should call the forEachNodeAfterFilter anf forEachNode method', () => {
+
+      spyOn(component.myGrid.api, 'forEachNodeAfterFilter').and.callThrough();
+      spyOn(component.myGrid.api, 'forEachNode').and.callThrough();
+
+      fixture.detectChanges();
+
+      component.myGrid.api.selectAll();
+      component.setFilterValue(filterValue);
+
+      const nativeElement = fixture.debugElement.nativeElement;
+      const grid = nativeElement.querySelector(['ag-grid-angular']);
+      grid.dispatchEvent(new Event('filterChanged'));
+
+      expect(component.myGrid.api.forEachNodeAfterFilter).toHaveBeenCalled();
+      expect(component.myGrid.api.forEachNode).toHaveBeenCalled();
+    })
+  });
 
 });
