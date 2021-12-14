@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { FilterChangedEvent, GridOptions, RowNode, SelectionChangedEvent } from 'ag-grid-community';
+import { GridOptions, RowNode } from 'ag-grid-community';
 import { PropertyLoansModel } from '../../models';
 
 @Component({
@@ -75,7 +75,7 @@ export class PropertyLoanGridComponent implements OnInit {
 
   };
 
-  selectedRows = 0;
+  selectedRowsLen = 0;
 
   constructor() { }
 
@@ -85,7 +85,7 @@ export class PropertyLoanGridComponent implements OnInit {
 
   onSelectionChanged() {
     const selectedRows = this.myGrid.api.getSelectedRows();
-    this.selectedRows = selectedRows.length;
+    this.selectedRowsLen = selectedRows.length;
   }
 
   onFilterChanged() {
@@ -97,7 +97,7 @@ export class PropertyLoanGridComponent implements OnInit {
   setSelectedNodesAfterFilter() {
     let nodes: RowNode[] = [];
     this.myGrid.api.forEachNodeAfterFilter(node => {
-      if(node.isSelected()) { nodes.push(node);} return
+      if(node.isSelected()) { nodes.push(node);}
     });
     this.myGrid.api.forEachNode(node => nodes.includes(node) ? node.setSelected(true) : node.setSelected(false));
   }

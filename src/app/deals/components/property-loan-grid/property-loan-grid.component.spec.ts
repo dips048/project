@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-import { GridApi, RowNode } from 'ag-grid-community';
+import { AgGridModule } from 'ag-grid-angular';
+import { GridApi } from 'ag-grid-community';
 
 import { PropertyLoanGridComponent } from './property-loan-grid.component';
 
@@ -38,9 +38,10 @@ describe('PropertyLoanGridComponent', () => {
   it('should set selectedRows value  onSelectionChanged call', () => {
     const selectedRows = [ {Loanid: 2, LoanAmount: 14200, IntrestRate: 0.5737, LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", Properties: null, PaymentTerms: [ { IndexTermType: "hub" }, { IndexTermType: "capability" } ], name: "Mynte", city: "Častolovice", yearBuilt: 1995 } ];
     const selectRowsSpy = spyOn(component.myGrid.api, 'getSelectedRows').and.returnValue(selectedRows);
+
     component.onSelectionChanged();
     expect(selectRowsSpy).toHaveBeenCalled;
-    expect(component.selectedRows).toEqual(1);
+    expect(component.selectedRowsLen).toEqual(1);
   });
 
   it('should call `setFilterModel` on `setFilterValue`', () => {
@@ -74,6 +75,11 @@ describe('PropertyLoanGridComponent', () => {
 
   describe('filterchange', () => {
     const filterValue: any = { Loanid: {filter: 1, filterType: "number", type: "equals"}}
+    let mockEvent = {
+      type: '',
+      api: new GridApi(),
+      columnApi: null
+    }
 
     beforeEach(() => {
       component.rowData = [
@@ -84,8 +90,9 @@ describe('PropertyLoanGridComponent', () => {
       ];
     })
 
-    it('should emit filter value on filter change', () => {
+    it('should emit filter value on filter change and get selected rows', () => {
       const emitSpy = spyOn(component.filterChange, 'emit');
+      const selectionChangeSpy = spyOn(component, 'onSelectionChanged');
 
       component.setFilterValue(filterValue);
 
@@ -94,34 +101,29 @@ describe('PropertyLoanGridComponent', () => {
       grid.dispatchEvent(new Event('filterChanged'));
 
       expect(emitSpy).toHaveBeenCalledWith(filterValue);
+      expect(selectionChangeSpy).toHaveBeenCalled();
     });
 
-    it('should call the OnSelctionchange method', () => {
-      const selectionChangeSpy = spyOn(component, 'onSelectionChanged');
 
-      const nativeElement = fixture.debugElement.nativeElement;
-      const grid = nativeElement.querySelector(['ag-grid-angular']);
-      grid.dispatchEvent(new Event('filterChanged'));
-
-      expect(selectionChangeSpy).toHaveBeenCalled();
-    })
-
-    it('should call the forEachNodeAfterFilter anf forEachNode method', () => {
-
+    it('should check the selected rows length after the filter applied', () => {
       spyOn(component.myGrid.api, 'forEachNodeAfterFilter').and.callThrough();
       spyOn(component.myGrid.api, 'forEachNode').and.callThrough();
+
+      expect(component.selectedRowsLen).toEqual(0);
 
       fixture.detectChanges();
 
       component.myGrid.api.selectAll();
-      component.setFilterValue(filterValue);
 
-      const nativeElement = fixture.debugElement.nativeElement;
-      const grid = nativeElement.querySelector(['ag-grid-angular']);
-      grid.dispatchEvent(new Event('filterChanged'));
+      expect(component.myGrid.api.getSelectedRows().length).toEqual(4);
+
+      component.setFilterValue(filterValue);
+      fixture.debugElement.nativeElement.querySelector(['ag-grid-angular']).dispatchEvent(new Event('filterChanged'));
 
       expect(component.myGrid.api.forEachNodeAfterFilter).toHaveBeenCalled();
       expect(component.myGrid.api.forEachNode).toHaveBeenCalled();
+
+      expect(component.selectedRowsLen).toEqual(1);
     })
   });
 });

@@ -84,8 +84,9 @@ describe('LoansGridComponent', () => {
       ];
     })
 
-    it('should emit filter value on filter change', () => {
+    it('should emit filter value on filter change and get selected rows', () => {
       const emitSpy = spyOn(component.filterChange, 'emit');
+      const selectionChangeSpy = spyOn(component, 'onSelectionChanged');
 
       component.setFilterValue(filterValue);
 
@@ -94,34 +95,29 @@ describe('LoansGridComponent', () => {
       grid.dispatchEvent(new Event('filterChanged'));
 
       expect(emitSpy).toHaveBeenCalledWith(filterValue);
+      expect(selectionChangeSpy).toHaveBeenCalled();
     });
 
-    it('should call the OnSelctionchange method', () => {
-      const selectionChangeSpy = spyOn(component, 'onSelectionChanged');
 
-      const nativeElement = fixture.debugElement.nativeElement;
-      const grid = nativeElement.querySelector(['ag-grid-angular']);
-      grid.dispatchEvent(new Event('filterChanged'));
-
-      expect(selectionChangeSpy).toHaveBeenCalled();
-    })
-
-    it('should call the forEachNodeAfterFilter anf forEachNode method', () => {
-
+    it('should check the selected rows length after the filter applied', () => {
       spyOn(component.myGrid.api, 'forEachNodeAfterFilter').and.callThrough();
       spyOn(component.myGrid.api, 'forEachNode').and.callThrough();
+
+      expect(component.selectedRows).toEqual(0);
 
       fixture.detectChanges();
 
       component.myGrid.api.selectAll();
-      component.setFilterValue(filterValue);
 
-      const nativeElement = fixture.debugElement.nativeElement;
-      const grid = nativeElement.querySelector(['ag-grid-angular']);
-      grid.dispatchEvent(new Event('filterChanged'));
+      expect(component.myGrid.api.getSelectedRows().length).toEqual(4);
+
+      component.setFilterValue(filterValue);
+      fixture.debugElement.nativeElement.querySelector(['ag-grid-angular']).dispatchEvent(new Event('filterChanged'));
 
       expect(component.myGrid.api.forEachNodeAfterFilter).toHaveBeenCalled();
       expect(component.myGrid.api.forEachNode).toHaveBeenCalled();
+
+      expect(component.selectedRows).toEqual(1);
     })
   });
 });

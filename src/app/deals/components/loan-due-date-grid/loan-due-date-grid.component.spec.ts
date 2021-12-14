@@ -36,7 +36,11 @@ describe('LoanDueDateGridComponent', () => {
   it('should set selectedRows value  onSelectionChanged call', () => {
     const selectedRows = [ {Loanid: 2, LoanAmount: 14200, IntrestRate: 0.5737, LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", Properties: null, PaymentTerms: [ { IndexTermType: "hub" }, { IndexTermType: "capability" } ], name: "Mynte", city: "Častolovice", yearBuilt: 1995 } ];
     const selectRowsSpy = spyOn(component.myGrid.api, 'getSelectedRows').and.returnValue(selectedRows);
+
+    expect(component.selectedRows).toEqual(0);
+
     component.onSelectionChanged();
+
     expect(selectRowsSpy).toHaveBeenCalled;
     expect(component.selectedRows).toEqual(1);
   });
@@ -73,18 +77,20 @@ describe('LoanDueDateGridComponent', () => {
 
   describe('filterchange', () => {
     const filterValue: any = { Loanid: {filter: 1, filterType: "number", type: "equals"}}
+    const rowsData = [
+      {Loanid: 1, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 },
+      {Loanid: 2, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 },
+      {Loanid: 3, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 },
+      {Loanid: 4, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 }
+    ]
 
     beforeEach(() => {
-      component.rowData = [
-        {Loanid: 1, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 },
-        {Loanid: 2, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 },
-        {Loanid: 3, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 },
-        {Loanid: 4, LoanAmount: 14200, IntrestRate: '0.5737', LeaseIndicator: true, NoteDate: "4/21/2021", DueDate: "1/28/2021", name: "Mynte", city: "Častolovice", yearBuilt: 1995 }
-      ];
+      component.rowData = rowsData;
     })
 
-    it('should emit filter value on filter change', () => {
+    it('should emit filter value on filter change and get selected rows', () => {
       const emitSpy = spyOn(component.filterChange, 'emit');
+      const selectionChangeSpy = spyOn(component, 'onSelectionChanged');
 
       component.setFilterValue(filterValue);
 
@@ -93,35 +99,28 @@ describe('LoanDueDateGridComponent', () => {
       grid.dispatchEvent(new Event('filterChanged'));
 
       expect(emitSpy).toHaveBeenCalledWith(filterValue);
+      expect(selectionChangeSpy).toHaveBeenCalled();
     });
 
-    it('should call the OnSelctionchange method', () => {
-      const selectionChangeSpy = spyOn(component, 'onSelectionChanged');
 
-      const nativeElement = fixture.debugElement.nativeElement;
-      const grid = nativeElement.querySelector(['ag-grid-angular']);
-      grid.dispatchEvent(new Event('filterChanged'));
-
-      expect(selectionChangeSpy).toHaveBeenCalled();
-    })
-
-    it('should call the forEachNodeAfterFilter anf forEachNode method', () => {
-
+    it('should check the selected rows length after the filter applied', () => {
+      // Arrange
       spyOn(component.myGrid.api, 'forEachNodeAfterFilter').and.callThrough();
       spyOn(component.myGrid.api, 'forEachNode').and.callThrough();
-
+      expect(component.selectedRows).toEqual(0);
       fixture.detectChanges();
 
+
+      // Act
       component.myGrid.api.selectAll();
+      expect(component.myGrid.api.getSelectedRows().length).toEqual(4);
       component.setFilterValue(filterValue);
+      fixture.debugElement.nativeElement.querySelector(['ag-grid-angular']).dispatchEvent(new Event('filterChanged'));
 
-      const nativeElement = fixture.debugElement.nativeElement;
-      const grid = nativeElement.querySelector(['ag-grid-angular']);
-      grid.dispatchEvent(new Event('filterChanged'));
-
+      // Assert
       expect(component.myGrid.api.forEachNodeAfterFilter).toHaveBeenCalled();
       expect(component.myGrid.api.forEachNode).toHaveBeenCalled();
+      expect(component.selectedRows).toEqual(1);
     })
   });
-
 });
