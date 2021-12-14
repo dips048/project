@@ -44,8 +44,6 @@ class FilterPage {
           }
         })
       })
-    cy.get('span')
-      .contains('selected rows').should('have.text',`selected rows: ${rows}`);
   }
 
   checkRowNotSelected(grid){
@@ -53,22 +51,26 @@ class FilterPage {
       .should('not.to.have.class', 'ag-row-selected')
   }
 
-  checkRowSelectedWithValue(grid, colId, value){
+  checkRowSelectedAfterFilter(grid, colId, value){
     cy.get(`[data-cy=${grid}] .ag-center-cols-container .ag-row-selected`)
     .then(rows => {
-      rows.each((index) =>
-        cy.get(`[data-cy=${grid}] [row-index="${index}"] [col-id="${colId}"] .ag-cell-value`)
+      rows.each((index) => {
+        console.log(index);
+        return cy.get(`[data-cy=${grid}] [row-index="${index}"] [col-id="${colId}"] .ag-cell-value`)
         .then(cell => {
           expect(cell).to.have.text(`${value}`);
         })
-      )
+      })
+    })
+    cy.get(`[data-cy=${grid}] .ag-center-cols-container .ag-row-selected`).its('length').then((val) => {
+      cy.get('span')
+      .contains('selected rows').should('have.text',`selected rows: ${val}`);
     })
   }
 
-  checkRowWithFilter(grid, colId, value) {
-    this.selectRows(grid, 3)
-    this.addFilterToGrid(grid, colId, value);
-    this.checkRowSelectedWithValue(grid, colId, value);
+  selectAllRows(grid){
+    cy.get(`[data-cy=${grid}] [col-id="Loanid"] .ag-header-select-all .ag-checkbox-input`).click();
   }
+
 }
 export default FilterPage

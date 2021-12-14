@@ -18,7 +18,11 @@ describe('Ag grid filters', () => {
     // filter.selectRows('propertyLoanGrid', 5);
     // filter.addFilterToGrid('propertyLoanGrid', 'Loanid', '1');
 
-    filter.checkRowWithFilter('propertyLoanGrid', 'Loanid', '1');
+    filter.selectRows('propertyLoanGrid', 3)
+    filter.addFilterToGrid('propertyLoanGrid', 'Loanid', '1');
+    filter.checkRowSelectedAfterFilter('propertyLoanGrid', 'Loanid', '1');
+
+    filter.selectAllRows('propertyLoanGrid');
   })
 
   it('filters for loanid in loan due date grid', () => {
