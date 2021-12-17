@@ -1,7 +1,7 @@
 <div>
   <span>selected rows: {{selectedRowsLen}}</span>
 </div>
-<ag-grid-angular data-cy="propertyLoanGrid" #myGrid (filterChanged)="onFilterChanged()"
+<ag-grid-angular id="propertyLoanGrid" [ccsfGrid]="'propertyLoanGrid'" data-cy="propertyLoanGrid" #myGrid (filterChanged)="onFilterChanged()"
     style="width: 800px; height: 500px;"
     class="ag-theme-alpine"
     [rowData]="rowData"

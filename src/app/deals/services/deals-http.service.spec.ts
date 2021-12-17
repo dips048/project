@@ -9,7 +9,8 @@ describe('DealsHttpService test', () => {
   let service: DealsHttpService;
   let httpTestingController: HttpTestingController;
   const value: DealsModel[] = [{Loans: [{Loanid:1,LoanAmount:81297,IntrestRate:"0.7051",LeaseIndicator:false,NoteDate:"12/2/2020",DueDate:"3/20/2021",Properties:[{name:"Quire",city:"KallÃ­fytos",yearBuilt:1988}],PaymentTerms:[] }] }];
-  const expectedValue = {Loanid:1,LoanAmount:81297,IntrestRate:"0.7051",LeaseIndicator:false,NoteDate:"12/2/2020",DueDate:"3/20/2021",Properties:null,name:"Quire",city:"KallÃ­fytos",yearBuilt:1988,PaymentTerms:[]}
+  // @ts-ignore
+  const expectedValue = {Loanid:1,LoanAmount:81297,IntrestRate:"0.7051",LeaseIndicator:false,NoteDate:"12/2/2020",DueDate:"3/20/2021",Properties: null,name:"Quire",city:"KallÃ­fytos",yearBuilt:1988,PaymentTerms: []}
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -7,12 +7,14 @@ import { components } from './components';
 import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CcsfGridDirective } from '../shared/directives';
 
 
 @NgModule({
   declarations: [
     ...components,
     ...containers,
+    CcsfGridDirective,
   ],
   imports: [
     CommonModule,

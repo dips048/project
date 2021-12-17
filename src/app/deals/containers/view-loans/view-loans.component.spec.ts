@@ -15,7 +15,7 @@ describe('ViewLoansComponent', () => {
   let fixture: ComponentFixture<ViewLoansComponent>;
   let service: DealsHttpService;
   const filterValue = { Loanid: {filter: 1, filterType: "number", type: "equals"}}
-  const expectedValue = {Loanid:1,LoanAmount:81297,IntrestRate:"0.7051",LeaseIndicator:false,NoteDate:"12/2/2020",DueDate:"3/20/2021",Properties:null,name:"Quire",city:"KallÃ­fytos",yearBuilt:1988,PaymentTerms:[]}
+  const expectedValue = {Loanid:1,LoanAmount:81297,IntrestRate:"0.7051",LeaseIndicator:false,NoteDate:"12/2/2020",DueDate:"3/20/2021",name:"Quire",city:"KallÃ­fytos",yearBuilt:1988}
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
