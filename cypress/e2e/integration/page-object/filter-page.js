@@ -80,5 +80,12 @@ class FilterPage {
   //   .click();
   // }
 
+  selectAll(grid) {
+    cy.window().then((win) => {
+      console.log(win);
+      win.QaGlobalsService.grids[`${grid}`].gridApi.selectAll();
+    })
+  }
+
 }
 export default FilterPage

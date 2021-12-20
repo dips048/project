@@ -21,6 +21,16 @@ describe('Ag grid filters', () => {
       filter.selectRowsRange('propertyLoanGrid', 0, 10);
       filter.addFilterToGrid('propertyLoanGrid', 'Loanid', '1');
       filter.checkRowSelectedAfterFilter('propertyLoanGrid', 'Loanid', '1');
+
+      // QaGlobalsService.grids["loanDueDateGrid"].gridApi.selectAll()
+      // const el = Cypress.$(`this.QaGlobalsService`);
+      // console.log('sss',el);
+
+      cy.window().then((win) => {
+        console.log(win);
+        win.QaGlobalsService.grids['propertyLoanGrid'].gridApi.selectAll();
+      })
+      filter.selectAll('loanDueDateGrid');
     })
   })
 
