@@ -1,0 +1,8 @@
+:host ::ng-deep .ag-header-cell {
+  background-color: #000;
+  color: #FFF;
+}
+
+:host ::ng-deep .ag-row-even {
+  background-color: rgb(210, 231, 20);
+}
