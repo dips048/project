@@ -47,6 +47,9 @@ export class LoanDueDateGridComponent implements OnInit {
       { field: 'city', filter: 'agTextColumnFilter', hide: true },
       { field: 'yearBuilt', filter: 'agNumberColumnFilter', hide: true },
     ],
+    defaultColDef: {
+      editable: true,
+    },
     rowSelection: 'multiple',
     rowMultiSelectWithClick: true,
     onSelectionChanged: () => this.onSelectionChanged(),

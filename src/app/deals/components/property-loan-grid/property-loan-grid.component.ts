@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { GridOptions, RowNode } from 'ag-grid-community';
+import { CellValueChangedEvent, GridOptions, NewValueParams, RowNode } from 'ag-grid-community';
 import { PropertyLoansModel } from '../../models';
 
 @Component({
@@ -14,6 +14,7 @@ export class PropertyLoanGridComponent implements OnInit {
 
   @Input() rowData: Array<PropertyLoansModel>;
   @Output() filterChange = new EventEmitter();
+  @Output() cellValuechanged = new EventEmitter<PropertyLoansModel>();
 
   gridOptions: GridOptions = {
     columnDefs: [
@@ -66,13 +67,20 @@ export class PropertyLoanGridComponent implements OnInit {
               closeOnApply: true,
             },
           },
+
         ]
       }
     ],
+    defaultColDef: {
+      editable: true,
+      onCellValueChanged: (e) => this.cellvalueChanged(e),
+      // cellEditingStarted: (e: any) => console.log('cellEditingStarted', e),
+    },
     rowSelection: 'multiple',
     rowMultiSelectWithClick: true,
     onSelectionChanged: () => this.onSelectionChanged(),
-
+    onRowEditingStarted: (e) => console.log('rowEditStarted', e),
+    onRowEditingStopped: (e) => console.log('rowEditingStopped', e),
   };
 
   selectedRowsLen = 0;
@@ -81,6 +89,11 @@ export class PropertyLoanGridComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  cellvalueChanged(event: NewValueParams) {
+    console.log('cellvalueChanged', event);
+    this.cellValuechanged.emit(event.node.data);
   }
 
   onSelectionChanged() {

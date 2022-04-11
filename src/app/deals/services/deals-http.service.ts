@@ -25,4 +25,9 @@ export class DealsHttpService {
       map(properties => flattenDeep(properties)),
     );
   }
+
+  updatePropertyLoan(updatedValue: DealsModel, id: string) {
+    return this.httpClient.put<DealsModel>(`assets/deals.json/${id}`, updatedValue)
+    .subscribe(data => data);
+  }
 }
